@@ -27,7 +27,7 @@
 
 .tinysrollContainer .scrollbar
 {
-    background:url(img/player.png) no-repeat -438px 0;
+    background:url(./img/player.png) no-repeat -438px 0;
     cursor:pointer;
     position:absolute;
     right: 0px;
@@ -43,7 +43,7 @@
 
 .tinysrollContainer .track
 {
-    background:url(img/player.png) no-repeat -438px 0;
+    background:url(./img/player.png) no-repeat -438px 0;
     height:100%;
     width:5px;
     position:relative;
@@ -52,7 +52,7 @@
 
 .tinysrollContainer .thumb
 {
-    background:transparent url(img/player.png) no-repeat -433px 0;
+    background:transparent url(./img/player.png) no-repeat -433px 0;
     height:5px;
     width:5px;
     cursor:pointer;
@@ -63,7 +63,7 @@
 
 .tinysrollContainer .thumb .end
 {
-    background:transparent url(img/player.png) no-repeat -433px 0;
+    background:transparent url(./img/player.png) no-repeat -433px 0;
     overflow:hidden;
     height:0px;
     width:0px;
@@ -73,7 +73,7 @@
 }
 
 .tinysrollContainer .thumb:hover,.G-classBox .thumb .end:hover {
-    background:transparent url(img/player.png) no-repeat -428px 0;
+    background:transparent url(./img/player.png) no-repeat -428px 0;
 }
 
 .tinysrollContainer .disable
@@ -97,16 +97,16 @@
 .G-classBox .overview .node{display: none;cursor: pointer;border-bottom:1px #b2b1b1 solid; height:30px; position:relative;padding: 0px 25px 0px 20px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}/*分类子项*/
 .G-classBox .overview .curr{display: block; border-bottom:1px #b2b1b1 solid;}/*当前层级分类*/
 .G-classBox .overview .node .content{cursor: pointer;overflow:hidden;font-family:"微软雅黑";font-size: 13px;}/*分类数据*/
-.G-classBox .overview .node .prev{width:15px; height:15px; position:absolute; left:0; top:0;cursor:pointer;color:#c94040; margin:7px 0 0 5px;background: url(img/pro_class.png) -6px -37px no-repeat;}/*上一层*/
-.G-classBox .overview .node .next{width:15px; height:15px; position:absolute; right:0; top:0;cursor:pointer;color:#c94040; margin:7px 10px 0 0;background: url(img/pro_class.png) -28px -37px no-repeat;}/*下一层*/
+.G-classBox .overview .node .prev{width:15px; height:15px; position:absolute; left:0; top:0;cursor:pointer;color:#c94040; margin:7px 0 0 5px;background: url(./img/pro_class.png) -6px -37px no-repeat;}/*上一层*/
+.G-classBox .overview .node .next{width:15px; height:15px; position:absolute; right:0; top:0;cursor:pointer;color:#c94040; margin:7px 10px 0 0;background: url(./img/pro_class.png) -28px -37px no-repeat;}/*下一层*/
 .G-classBox .overview .node .noPrev{background:none;}/*无上一层*/
 .G-classBox .overview .node .noNext{background:none;}/*无下一层*/
 
 /*分类选择被选中*/
 .G-classBox .overview .nodeSel {background: #ff6600;color: #fff}
 .G-classBox .overview .nodeSel .content{}
-.G-classBox .overview .nodeSel .prev{background: url(img/pro_class.png) -6px -5px no-repeat;}/*上一层*/
-.G-classBox .overview .nodeSel .next{background: url(img/pro_class.png) -28px -5px no-repeat;}/*下一层*/
+.G-classBox .overview .nodeSel .prev{background: url(./img/pro_class.png) -6px -5px no-repeat;}/*上一层*/
+.G-classBox .overview .nodeSel .next{background: url(./img/pro_class.png) -28px -5px no-repeat;}/*下一层*/
 .G-classBox .overview .nodeSel .noPrev{background:none;}
 .G-classBox .overview .nodeSel .noNext{background:none;}
 .hidden{display: none;}
@@ -197,15 +197,15 @@
 }
 
 .G-treeSelectBox .treeselect .treenode span.treeselect-expand, .G-treeSelectBox .treeselect .treenode span.treeselect-expand.collapsed {
-    background:url(img/collapsed.gif) no-repeat 0 0;
+    background:url(./img/collapsed.gif) no-repeat 0 0;
 }
 
 .G-treeSelectBox .treeselect .treenode span.treeselect-expand.expanded {
-    background:url(img/expanded.gif) no-repeat 0 0;
+    background:url(./img/expanded.gif) no-repeat 0 0;
 }
 
 .G-treeSelectBox .treeselect span.treebusy, .G-treeSelectBox .treeselect span.treebusy.treeselect-expand.expanded, .G-treeSelectBox .treeselect span.treebusy.treeselect-expand.collapsed  {
-    background:url(img/throbber.gif) no-repeat 0 0;
+    background:url(./img/throbber.gif) no-repeat 0 0;
     width:16px;
     height:10px;
 }
@@ -244,7 +244,7 @@
 /*控件容器滚动条*/
 .G-classBox .scrollbar,.G-treeSelectBox .scrollbar
 {
-    background:url(img/player.png) no-repeat -438px 0;
+    background:url(./img/player.png) no-repeat -438px 0;
     cursor:pointer;
     position:absolute;
     right: 0px;
@@ -255,7 +255,7 @@
 
 .G-classBox .track,.G-treeSelectBox .track
 {
-    background:url(img/player.png) no-repeat -438px 0;
+    background:url(./img/player.png) no-repeat -438px 0;
     height:100%;
     width:5px;
     position:relative;
@@ -264,7 +264,7 @@
 
 .G-classBox .thumb,.G-treeSelectBox .thumb
 {
-    background:transparent url(img/player.png) no-repeat -433px 0;
+    background:transparent url(./img/player.png) no-repeat -433px 0;
     height:20px;
     width:5px;
     cursor:pointer;
@@ -275,7 +275,7 @@
 
 .G-classBox .thumb .end,.G-treeSelectBox .thumb .end
 {
-    background:transparent url(img/player.png) no-repeat -433px 0;
+    background:transparent url(./img/player.png) no-repeat -433px 0;
     overflow:hidden;
     height:0px;
     width:0px;
@@ -285,7 +285,7 @@
 }
 
 .G-classBox .thumb:hover,.G-classBox .thumb .end:hover,.G-treeSelectBox .thumb:hover,.G-treeSelectBox .thumb .end:hover {
-    background:transparent url(img/player.png) no-repeat -428px 0;
+    background:transparent url(./img/player.png) no-repeat -428px 0;
 }
 .G-classBox .viewport,.G-treeSelectBox .viewport
 {
