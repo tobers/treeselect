@@ -1,4 +1,27 @@
 ;
+var strJsPath = '';
+(function () {
+    try {
+        throw Error("è·å–JSè·¯å¾„æœ‰è¯¯");
+    } catch (ex) {
+        if (ex.fileName)//Firefox
+            strJsPath = ex.fileName
+        else if (ex.stack)//Chrome
+            strJsPath = (ex.stack.match(/at\s+(.*?):\d+:\d+/) || ['', ''])[1];
+        else if (ex.sourceURL)//Safari
+            strJsPath = ex.sourceURL
+    }
+    if (strJsPath) {
+        strJsPath = strJsPath.substring(0, strJsPath.lastIndexOf("/") + 1);
+        return;
+    }
+
+    //å…¶å®æ‰€æœ‰æµè§ˆå™¨éƒ½å¯ä»¥ç”¨ä¸‹é¢çš„
+    var scripts = document.getElementsByTagName_r("script"), script = scripts[scripts.length - 1];
+    strJsPath = document.querySelector ? script.src : script.getAttribute("src", 4)//IE8ç›´æ¥.src
+    strJsPath = strJsPath.substring(0, strJsPath.lastIndexOf("/") + 1);
+})()
+;
 (function (factory) {
     if (typeof define === 'function' && define.amd) {
         define(jQuery || ['jquery'], factory);
@@ -12,8 +35,8 @@
 }
 
 /**
- * µ¯³öÁĞ±íÑ¡ÔñÆ÷
- * Ö§³Ö²ã¼¶Êı¾İµÄÑ¡Ôñ
+ * å¼¹å‡ºåˆ—è¡¨é€‰æ‹©å™¨
+ * æ”¯æŒå±‚çº§æ•°æ®çš„é€‰æ‹©
  */
 (function ($) {
     "use strict";
@@ -76,7 +99,7 @@
 // Tree object
 
     function TreeDocumentCreator(objName, rootID, iconDic) {
-        iconDic = iconDic ? iconDic : '';
+        iconDic = typeof iconDic === "string" ? iconDic : strJsPath;
 
         this.config = {
 
@@ -146,15 +169,15 @@
 
         this.completed = false;
 
-        this.nodeExpandedOrCollapsed = false;// ½ÚµãÕ¹¿ª»òÕß¹Ø±ÕºóµÄ»Øµ÷º¯Êı
+        this.nodeExpandedOrCollapsed = false;// èŠ‚ç‚¹å±•å¼€æˆ–è€…å…³é—­åçš„å›è°ƒå‡½æ•°
 
-        this.multiple = false;// ÊÇ·ñÎª¶àÑ¡
+        this.multiple = false;// æ˜¯å¦ä¸ºå¤šé€‰
 
-        this.useParentItem = false;// (½ö¶àÑ¡)ÊÇ·ñÆôÓÃ¸¸¼¶½ÚµãµÄÖµ,false-±íÊ¾Ö»ÓĞÒ¶×Ó½ÚµãµÄÖµ²Å»á±»Ê¹ÓÃ
+        this.useParentItem = false;// (ä»…å¤šé€‰)æ˜¯å¦å¯ç”¨çˆ¶çº§èŠ‚ç‚¹çš„å€¼,false-è¡¨ç¤ºåªæœ‰å¶å­èŠ‚ç‚¹çš„å€¼æ‰ä¼šè¢«ä½¿ç”¨
 
-        this.nodeMultipChoose = false;// ¶àÑ¡ÊÂ¼ş»Øµô
+        this.nodeMultipChoose = false;// å¤šé€‰äº‹ä»¶å›æ‰
 
-        this.multipleCtrlName = this.obj + '_treeChooseCtrl';// ¶àÑ¡¿Ø¼şÃû³Æ
+        this.multipleCtrlName = this.obj + '_treeChooseCtrl';// å¤šé€‰æ§ä»¶åç§°
 
     }
 
@@ -501,8 +524,8 @@
         return str;
     };
 
-// ÉèÖÃ¶àÑ¡Ä¬ÈÏÑ¡ÖĞ
-// TODO Èô×Ó½Úµã¾ùÑ¡ÖĞÔò½«¸¸½ÚµãÒ²Ñ¡ÖĞ
+// è®¾ç½®å¤šé€‰é»˜è®¤é€‰ä¸­
+// TODO è‹¥å­èŠ‚ç‚¹å‡é€‰ä¸­åˆ™å°†çˆ¶èŠ‚ç‚¹ä¹Ÿé€‰ä¸­
     TreeDocumentCreator.prototype.setMultipleSelected = function (items) {
 
         var choCtrArr = document.getElementsByName(this.multipleCtrlName);
@@ -535,7 +558,7 @@
 
     };
 
-// ¼ì²â¶àÑ¡×Ó½ÚµãÑ¡ÖĞÇé¿ö,Èô×Ó½Úµã¾ùÒÑ¾­Ñ¡ÖĞ,Ôò×Ô¶¯Ñ¡Ôñ¸¸½Úµã
+// æ£€æµ‹å¤šé€‰å­èŠ‚ç‚¹é€‰ä¸­æƒ…å†µ,è‹¥å­èŠ‚ç‚¹å‡å·²ç»é€‰ä¸­,åˆ™è‡ªåŠ¨é€‰æ‹©çˆ¶èŠ‚ç‚¹
     TreeDocumentCreator.prototype._refreshSelectedState = function (id) {
 
         var state = true;
@@ -853,28 +876,28 @@
     }
     var pluginName = "treeSelectChoose",
         defaults =
-        {
-            axis: 'y'    // Vertical or horizontal scrollbar? ( x || y ).
-            , wheel: true   // Enable or disable the mousewheel;
-            , wheelSpeed: 40     // How many pixels must the mouswheel scroll at a time.
-            , wheelLock: true   // Lock default scrolling window when there is no more content.
-            , scrollInvert: false  // Enable invert style scrolling
-            , trackSize: false  // Set the size of the scrollbar to auto or a fixed number.
-            , thumbSize: false  // Set the size of the thumb to auto or a fixed number.
-            , width: 200
-            , height: 220
-            , parseListDataFn: undefined // Proude Data By Self
-            , onItemClicked: undefined // Item Clicked Callback Function
-            , multiple: false // Enabled multiple choose
-            , itemsSelected: undefined // When multiple selected call result function
-            , embed: false // Append choose tree into caller object, not absolutely position
-            , parentCanSelect: true
-            , actionUrl: '../api/base/resource'// Default data api url
-            , forceLoad: false
-            , openAll: false
-            , css: 'position: absolute;top: -5000px;left: -5000px;z-index: -1;' // The styles of choose tree
-            , loaded: false // ÔªËØ³õÊ¼»¯¼ÓÔØÍê³ÉºóµÄ»Øµ÷º¯Êı
-        };
+            {
+                axis: 'y'    // Vertical or horizontal scrollbar? ( x || y ).
+                , wheel: true   // Enable or disable the mousewheel;
+                , wheelSpeed: 40     // How many pixels must the mouswheel scroll at a time.
+                , wheelLock: true   // Lock default scrolling window when there is no more content.
+                , scrollInvert: false  // Enable invert style scrolling
+                , trackSize: false  // Set the size of the scrollbar to auto or a fixed number.
+                , thumbSize: false  // Set the size of the thumb to auto or a fixed number.
+                , width: 200
+                , height: 220
+                , parseListDataFn: undefined // Proude Data By Self
+                , onItemClicked: undefined // Item Clicked Callback Function
+                , multiple: false // Enabled multiple choose
+                , itemsSelected: undefined // When multiple selected call result function
+                , embed: false // Append choose tree into caller object, not absolutely position
+                , parentCanSelect: true
+                , actionUrl: '../api/base/resource'// Default data api url
+                , forceLoad: false
+                , openAll: false
+                , css: 'position: absolute;top: -5000px;left: -5000px;z-index: -1;' // The styles of choose tree
+                , loaded: false // å…ƒç´ åˆå§‹åŒ–åŠ è½½å®Œæˆåçš„å›è°ƒå‡½æ•°
+            };
 
     function Plugin($caller, options) {
         this.options = $.extend({}, defaults, options);
@@ -910,7 +933,7 @@
 
             , sizeLabel = isHorizontal ? "width" : "height"
             , posiLabel = isHorizontal ? "left" : "top"
-            ;
+        ;
 
         this.contentPosition = 0;
         this.viewportSize = 0;
@@ -963,7 +986,7 @@
                         <div class="overview treeselect">\
                         </div>\
                     </div>\
-                    <div class="mask loadLayer"><img src="img/xubox_loading2.gif"/></div>\
+                    <div class="mask loadLayer"><img src="' + strJsPath + 'img/xubox_loading2.gif"/></div>\
                     <div class="mask noResultLayer"><span class="noResult">Sorry,I can\'t find data.</span></div>\
                 </div>');
             popupWin.height(self.options.height);
@@ -1003,7 +1026,7 @@
 
             }, false);
 
-            // ÇëÇó²ÎÊı×Ö·û´®
+            // è¯·æ±‚å‚æ•°å­—ç¬¦ä¸²
             function paramToSting(dat) {
                 if (typeof dat === "object") {
                     var queryString = '';
@@ -1038,13 +1061,13 @@
                 loadUI(dat);
             } else {
                 var data = [];
-                // Í¨¹ı»Øµ÷Ö¸¶¨Êı¾İ
+                // é€šè¿‡å›è°ƒæŒ‡å®šæ•°æ®
                 if (typeof(self.options.parseListDataFn) == 'function') {
                     data = self.options.parseListDataFn();
                     loadUI(data);
                 } else {
                     var dString;
-                    // Í¨¹ıĞ´ÈëJSONµ½DomÖĞ
+                    // é€šè¿‡å†™å…¥JSONåˆ°Domä¸­
                     if (typeof (dString = $caller.attr('data')) === "string") {
                         try {
                             data = eval('(' + dString + ')')
@@ -1052,7 +1075,7 @@
                             data = [];
                         }
                         loadUI(data);
-                        // Êı¾İ»ñÈ¡ÅäÖÃ²ÎÊıĞ´ÈëDOMÖĞ
+                        // æ•°æ®è·å–é…ç½®å‚æ•°å†™å…¥DOMä¸­
                     } else if ((typeof (dString = getDocProperty()) === "object") && dString.state) {
                         loadDataFromServer(dString.data, function (tree) {
                             if (dString.header) {
@@ -1060,7 +1083,7 @@
                             }
                             loadUI(tree);
                         });
-                        // Ö±½ÓÖ¸¶¨Êı¾İURLµ½DOMÖĞ
+                        // ç›´æ¥æŒ‡å®šæ•°æ®URLåˆ°DOMä¸­
                     } else if (typeof (dString = $caller.attr('dUrl')) === "string" && $.trim(dString)) {
                         self.options.actionUrl = $.trim(dString);
                         loadDataFromServer({}, function (tree) {
@@ -1069,7 +1092,7 @@
                             }
                             loadUI(tree);
                         });
-                        // Ã»ÓĞÈÎºÎÊı¾İ
+                        // æ²¡æœ‰ä»»ä½•æ•°æ®
                     } else {
                         $mask.hide();
                         _loaded = true;
@@ -1079,7 +1102,7 @@
                 }
             }
 
-            // »ñµÃÀÁ¼ÓÔØµÄÅäÖÃ
+            // è·å¾—æ‡’åŠ è½½çš„é…ç½®
             function getDocProperty() {
                 var dType = $caller.attr('dType'),
                     dTable = $caller.attr('dTable'),
@@ -1108,7 +1131,7 @@
                 return {state: data.dType.length > 0 || data.table.length > 0, 'data': data};
             }
 
-            // ¼ÓÔØÊı¾İÑ¡ÔñUI
+            // åŠ è½½æ•°æ®é€‰æ‹©UI
             function loadUI(data) {
                 _loaded = true;
                 if (typeof data !== "object") {
@@ -1126,7 +1149,7 @@
                 }
 
                 /**
-                 * ·ÖÀàÊ÷
+                 * åˆ†ç±»æ ‘
                  * @type {TreeDocumentCreator}
                  */
                 _tree = window[self.DOCTREEID] = self.tree = new TreeDocumentCreator(self.DOCTREEID);
@@ -1134,7 +1157,7 @@
                 if (data && data.header) {
                     self.tree.add(0, -1, data.header, 'javascript:void(0)', '', '', '', '');
                 } else {
-                    self.tree.add(0, -1, "È«²¿", 'javascript:void(0)', '', '', '', '');
+                    self.tree.add(0, -1, "å…¨éƒ¨", 'javascript:void(0)', '', '', '', '');
                 }
 
                 if (self.options.multiple) {
@@ -1340,7 +1363,7 @@
                 $container[0].onmousewheel = wheel;
             }
 
-            // ¶ÔÏóÒÔÍâµÄÆäËûÔªËØµã»÷Ê±¹Ø±Õ
+            // å¯¹è±¡ä»¥å¤–çš„å…¶ä»–å…ƒç´ ç‚¹å‡»æ—¶å…³é—­
             $(document.body).click(function (e) {
                 if (!self.lock && self.visible) {
                     if ($container.get(0) && !$container.find(e.target).get(0) && e.target != $container.get(0) && !$caller.find(e.target).get(0) && $caller.get(0) != e.target) {
@@ -1374,7 +1397,7 @@
             if (self.contentRatio < 1) {
                 var eventObject = event || window.Event
                     , wheelSpeedDelta = eventObject.wheelDelta ? eventObject.wheelDelta / 120 : -eventObject.detail / 3
-                    ;
+                ;
 
                 self.contentPosition -= wheelSpeedDelta * self.options.wheelSpeed;
                 self.contentPosition = Math.min((self.contentSize - self.viewportSize), Math.max(0, self.contentPosition));
@@ -1395,7 +1418,7 @@
             if (self.contentRatio < 1) {
                 var mousePositionNew = isHorizontal ? event.pageX : event.pageY
                     , thumbPositionDelta = mousePositionNew - mousePosition
-                    ;
+                ;
 
                 if (self.options.scrollInvert && hasTouchEvents) {
                     thumbPositionDelta = mousePosition - mousePositionNew;
@@ -1423,7 +1446,7 @@
     }
 
     /**
-     * ²å¼ş×¢²á
+     * æ’ä»¶æ³¨å†Œ
      * @param [options]
      * @returns Plugin
      */
@@ -1439,7 +1462,7 @@
     };
 
     /**
-     * ²å¼ş°ó¶¨¹¤¾ß×¢²á
+     * æ’ä»¶ç»‘å®šå·¥å…·æ³¨å†Œ
      * @param [options]
      * @returns void
      */
@@ -1452,7 +1475,7 @@
                 $intId = $(this).find('.treeValue');
             $icon.size() && $icon.click(toggle);
 
-            // »ñµÃ»òÉú³ÉÑ¡Ôñµ¯³ö¿ò¶ÔÏó
+            // è·å¾—æˆ–ç”Ÿæˆé€‰æ‹©å¼¹å‡ºæ¡†å¯¹è±¡
             function getPlugin() {
                 return $inpTxt.treeSelectChoose($.extend({}, {
                     width: 182,
@@ -1461,13 +1484,13 @@
                 }, options));
             }
 
-            // UIÇĞ»»
+            // UIåˆ‡æ¢
             function toggle(e) {
                 getPlugin().show();
                 e.stopPropagation();
             }
 
-            // Item Ñ¡ÔñÊÂ¼ş
+            // Item é€‰æ‹©äº‹ä»¶
             function itemClicked(item) {
                 $inpTxt.val(item.title);
                 $intId.val(item.id);
